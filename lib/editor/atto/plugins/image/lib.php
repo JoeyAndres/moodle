@@ -19,6 +19,7 @@
  *
  * @package    atto_image
  * @copyright  2013 Damyon Wiese  <damyon@moodle.com>
+ * @copyright  2015 Joey Andres <jandres@ualberta.ca>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -49,9 +50,36 @@ function atto_image_strings_for_js() {
         'presentationoraltrequired',
         'size',
         'width',
-        'uploading',
+
+        'customcsstooltip',
+        'bordertooltip',
+        'spacingtooltip',
+        'texttoptooltip',
+        'textbaselinetooltip',
+        'textbottomtooltip',
+        'leftaligntooltip',
+        'rightaligntooltip',
+        'normalflowtooltip'
     );
 
     $PAGE->requires->strings_for_js($strings, 'atto_image');
 }
 
+/**
+ * Make some strings (from settings.php) available in javascript.
+ */
+function atto_image_params_for_js($elementid, $options, $foptions) {
+    // Pass the number of visible groups as a param.
+    $params = array(
+        'handle_config' => get_config('atto_image', 'availableresizehandle'),
+        'minmaxwidthheight' => get_config('atto_image', 'minmaxwidthheight'),
+        'toggle_key_preserve_aspect_ratio' => get_config('atto_image', 'togglekeypreserveaspectratio'),
+
+        'disable_custom_classes' => get_config('atto_image', 'disablecustomclasses'),
+
+        'resize_animation_enable' => get_config('atto_image', 'resizeanimationenable'),
+        'resize_animation_duration' => get_config('atto_image', 'resizeanimationduration'),
+        'resize_animation_easing' => get_config('atto_image', 'resizeeasing')
+    );
+    return $params;
+}
