@@ -42,7 +42,7 @@
 .atto-image-resize-container .atto-image-resize-overlay,
 .atto-image-resize-container .atto-image-resize-overlay .atto-image-ghost-node,
 .atto-image-resize-container .yui3-resize-handles-wrapper,
-.Mso-atto-image-resizable-node,
+.atto-helper-atto-image-resizable-node,
 .atto-image-overlay,
 .atto-image-overlay-node-wrapper,
 .atto-image-overlay.yui3-overlay-content,
@@ -188,7 +188,7 @@
   z-index: 49;
   opacity: 0.4;
 }
-.Mso-atto-image-resizable-node {
+.atto-helper-atto-image-resizable-node {
   display: none;
 }
 /* Hide overlay markup while loading, if js is enabled */
