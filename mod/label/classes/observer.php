@@ -14,17 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Label module version info
- *
- * @package mod_label
- * @copyright  2003 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+require_once($CFG->libdir . "/classes/event/course_module_created.php");
+require_once(__DIR__ . "/../locallib.php");
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2016051701;       // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015111000;    // Requires this Moodle version
-$plugin->component = 'mod_label'; // Full name of the plugin (used for diagnostics)
-$plugin->cron      = 0;
+function label_course_module_created(\core\event\course_module_created $cmc) {
+    \mod_label\hide_course_module(get_coursemodule_from_id('label', $cmc->objectid));
+}

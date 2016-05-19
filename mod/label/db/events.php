@@ -15,16 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Label module version info
+ * Event observers definition.
  *
- * @package mod_label
- * @copyright  2003 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package mod_chat
+ * @category event
+ * @copyright 2010 Dongsheng Cai <dongsheng@moodle.com>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$observers = array(
 
-$plugin->version   = 2016051701;       // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015111000;    // Requires this Moodle version
-$plugin->component = 'mod_label'; // Full name of the plugin (used for diagnostics)
-$plugin->cron      = 0;
+    // User logging out.
+    array(
+        'eventname' => '\core\event\course_module_created',
+        'callback' => 'label_course_module_created',
+        'includefile' => '/mod/label/classes/observer.php'
+    )
+);

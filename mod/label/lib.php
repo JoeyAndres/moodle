@@ -28,6 +28,8 @@ defined('MOODLE_INTERNAL') || die;
 /** LABEL_MAX_NAME_LENGTH = 50 */
 define("LABEL_MAX_NAME_LENGTH", 50);
 
+require_once(__DIR__ . "/locallib.php");
+
 /**
  * @uses LABEL_MAX_NAME_LENGTH
  * @param object $label
@@ -80,6 +82,10 @@ function label_update_instance($label) {
     $label->name = get_label_name($label);
     $label->timemodified = time();
     $label->id = $label->instance;
+
+    $cmid = $label->coursemodule;
+    $cm = get_coursemodule_from_id('label', $cmid);
+    mod_label\hide_course_module($cm);
 
     return $DB->update_record("label", $label);
 }

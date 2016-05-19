@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,17 +15,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace mod_label;
+
 /**
- * Label module version info
+ * Utility functions
  *
  * @package mod_label
- * @copyright  2003 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright  2016 Joey Andres
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2016051701;       // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015111000;    // Requires this Moodle version
-$plugin->component = 'mod_label'; // Full name of the plugin (used for diagnostics)
-$plugin->cron      = 0;
+/**
+ * @param stdClass $cm Course module instance.
+ */
+function hide_course_module($cm) {
+    global $DB;
+
+    if (!is_string($cm->availability) || strlen($cm->availability) == 0) {
+        return;
+    }
+
+    $availability = json_decode($cm->availability);
+    $availability->showc = array(false);
+    $cm->availability = json_encode($availability);
+
+    $DB->set_field('course_modules', 'availability', $cm->availability, array('id' => $cm->id));
+}
