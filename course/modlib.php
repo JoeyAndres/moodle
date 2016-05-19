@@ -88,6 +88,15 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
         // If there is any availability data, verify it.
         if ($newcm->availability) {
             $tree = new \core_availability\tree(json_decode($newcm->availability));
+
+            $hideincoursesectionifunavailable = "{$moduleinfo->modulename}_hide_in_course_section_if_unavailable";
+            if (function_exists($hideincoursesectionifunavailable)) {
+                if ($hideincoursesectionifunavailable()) {
+                    $tree->hide_for_all_children();
+                    $newcm->availability = json_encode($tree->save());
+                }
+            }
+
             // Save time and database space by setting null if the only data
             // is an empty tree.
             if ($tree->is_empty()) {

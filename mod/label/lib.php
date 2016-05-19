@@ -109,6 +109,10 @@ function label_delete_instance($id) {
     return $result;
 }
 
+function label_hide_in_course_section_if_unavailable() {
+    return true;
+}
+
 /**
  * Given a course_module object, this function returns any
  * "extra" information that may be needed when printing

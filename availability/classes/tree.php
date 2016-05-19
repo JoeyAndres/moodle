@@ -242,6 +242,14 @@ class tree extends tree_node {
         }
     }
 
+    public function hide_for_all_children() {
+        if (!is_null($this->showchildren)) {
+            foreach($this->showchildren as &$showchild) {
+                $showchild = false;
+            }
+        }
+    }
+
     public function check_available($not, info $info, $grabthelot, $userid) {
         // If there are no children in this group, we just treat it as available.
         $information = '';
