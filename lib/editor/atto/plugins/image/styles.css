@@ -1,3 +1,81 @@
+/**
+ * Default atto_control is undesired, it's causing things to "hide" in unwanted manner. To counter this under image
+ * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
+ * atto_control styling does.
+ */
+.atto-image-resize-container.atto_control,
+.atto-image-resize-container .atto_control {
+    /* Reset atto_control except for cursor. */
+    position: static;
+    right: auto;
+    bottom: auto;
+    display: inline;
+}
+.atto-image-resize-container.atto_control:hover,
+.atto-image-resize-container .atto_control:hover {
+    display: inline;
+    margin-left: 0;
+}
+.atto-image-resize-container.atto_control:focus,
+.atto-image-resize-container .atto_control:focus {
+    display: inline;
+}
+
+/**
+ * Resize handles design.
+ */
+.atto-image-resize-overlay,
+.atto-image-resize-overlay.atto_control {
+    border: 1px solid blue;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
+.atto-image-resize-container .yui3-resize-handle-inner {
+    background-color: blue;
+    background-image: none;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 8px;
+    height: 8px;
+}
+.yui3-resize-handle-tr,
+.yui3-resize-handle-br,
+.yui3-resize-handle-tl,
+.yui3-resize-handle-bl {
+    width: 8px;
+    height: 8px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-tl {
+    bottom: 4px;
+    right: 4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-t {
+    top: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-tr {
+    bottom: 4px;
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-r {
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-br {
+    bottom: -4px;
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-b {
+    bottom: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-bl {
+    bottom: -4px;
+    right: 4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-l {
+    left: -4px;
+}
+
 .atto_image_preview {
     width: 100%;
     height: 100%;
@@ -26,4 +104,8 @@
 }
 .atto_image_size label {
     display: inline-block;
+}
+
+.atto-image-helper-hide-until-save {
+    display: none;
 }
