@@ -1,3 +1,108 @@
+/**
+ * Default atto_control is undesired, it's causing things to "hide" in unwanted manner. To counter this under image
+ * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
+ * atto_control styling does.
+ */
+.atto-image-resize-container.atto_control,
+.atto-image-resize-container .atto_control {
+    /* Reset atto_control except for cursor. */
+    position: static;
+    right: auto;
+    bottom: auto;
+    display: inline;
+}
+.atto-image-resize-container.atto_control:hover,
+.atto-image-resize-container .atto_control:hover {
+    display: inline;
+    margin-left: 0;
+}
+.atto-image-resize-container.atto_control:focus,
+.atto-image-resize-container .atto_control:focus {
+    display: inline;
+}
+
+.atto-image-resize-container.atto_control,
+.atto-image-resize-container.atto_control:hover,
+.atto-image-resize-container.atto_control:focus {
+    /*
+     * Reset all styling that applies from border within .
+     */
+    padding: 0px;
+    border-width: 0px;
+}
+
+/* This is so the parent, ghostNodeContainer in resizable.js, will wrap around it's child. */
+.atto-image-resize-container > .yui3-overlay {
+    position: relative;
+}
+
+/**
+ * Resize handles design.
+ */
+.atto-image-resize-overlay,
+.atto-image-resize-overlay.atto_control {
+    border: 1px solid blue;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    /*
+     * Avoid ff image movement.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+.atto-image-resize-container .yui3-resize-handle-inner {
+    background-color: blue;
+    background-image: none;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 8px;
+    height: 8px;
+    resize: none;
+}
+.yui3-resize-handle-tr,
+.yui3-resize-handle-br,
+.yui3-resize-handle-tl,
+.yui3-resize-handle-bl {
+    width: 8px;
+    height: 8px;
+    resize: none;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-tl {
+    bottom: 4px;
+    right: 4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-t {
+    top: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-tr {
+    bottom: 4px;
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-r {
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-br {
+    bottom: -4px;
+    right: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-b {
+    bottom: -4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-bl {
+    bottom: -4px;
+    right: 4px;
+}
+.atto-image-resize-container .yui3-resize-handle-inner-l {
+    left: -4px;
+}
+
 .atto_image_preview {
     width: 100%;
     height: 100%;
@@ -26,4 +131,37 @@
 }
 .atto_image_size label {
     display: inline-block;
+}
+
+.atto-image-helper-hide-until-save {
+    display: none;
+}
+
+/*
+ * Class for ghostNode.
+ */
+.atto_image_ghost_img {
+    /*
+     * Avoid ff image movement.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+
+    /*
+     * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
+     * Properties below are suppose to override the styles html attribute (which is top priority).
+     */
+    margin: 0px !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    /*
+     * This is so other will just stack over this.ghostNode instead of doing a doc flow.
+     */
+    position: absolute !important;
 }
