@@ -64,3 +64,124 @@
     margin: 0 0 0 0.5em;
     max-width: calc(100% - 1em);
 }
+
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control {
+    vertical-align: bottom;
+    left: 0px;
+    top: 0px;
+    position: relative;
+    overflow: visible;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.atto-image-wrapper > .atto-image-editable-helper-wrapper {
+    position: absolute;
+}
+
+.atto-image-resize-overlay {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.atto-image-resize-overlay-wrapper {
+    border: 2px solid #0096fd;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner {
+    background-image: none;
+    background-color: #0096fd;
+    width: 10px;
+    height: 10px;
+    border: 1px solid white;
+    resize: none;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-tr {
+    bottom: 0px;
+    right: 0px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-br {
+    bottom: 0px;
+    right: 0px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-tl {
+    bottom: 0px;
+    right: 0px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-bl {
+    bottom: 0px;
+    right: 0px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-tl {
+    top: -5px;
+    left: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-t {
+    top: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-tr {
+    top: -5px;
+    right: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-r {
+    bottom: -5px;
+    right: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-br {
+    bottom: -5px;
+    right: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-b {
+    bottom: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-bl {
+    bottom: -5px;
+    left: -5px;
+}
+
+.atto-image-resize-overlay-wrapper .yui3-resize-handle-inner-l {
+    left: -5px;
+}
+
+.atto-image-helper-hide-until-save {
+    display: none;
+}
+
+.atto-image-wrapper > img {
+    margin: 0px;
+    position: absolute;
+    /* For cropping, so we can offset the image inside the wrapper. */
+}
+
+.atto-image-wrapper ::-moz-selection,
+.atto-image-wrapper * ::-moz-selection {
+    background: none;
+}
+
+.atto-image-wrapper ::selection,
+.atto-image-wrapper * ::selection {
+    background: none;
+}
+
+/*# sourceMappingURL=styles.css.map */
