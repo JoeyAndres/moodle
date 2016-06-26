@@ -8,6 +8,38 @@
     right: auto;
     bottom: auto;
     display: inline-block;
+}
+
+.atto_control_nullify img,
+.atto-image-wrapper img,
+.atto-image-wrapper.atto_control img,
+.atto-image-wrapper *.atto_control img,
+.atto-image-wrapper.atto_control *.atto_control img,
+.atto-image-resize-overlay img {
+    background-color: transparent;
+}
+
+.atto_control_nullify:focus .atto_control,
+.atto-image-wrapper:focus .atto_control,
+.atto-image-wrapper .atto_control:focus .atto_control,
+.atto-image-resize-overlay:focus .atto_control,
+.atto_control_nullify:hover .atto_control,
+.atto-image-wrapper:hover .atto_control,
+.atto-image-wrapper .atto_control:hover .atto_control,
+.atto-image-resize-overlay:hover .atto_control {
+    display: inline-block;
+}
+
+.atto_control_nullify,
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control,
+.atto-image-wrapper *.atto_control,
+.atto-image-wrapper.atto_control *.atto_control,
+.atto-image-resize-overlay {
+    position: static;
+    right: auto;
+    bottom: auto;
+    display: inline-block;
 
     background-color: transparent;
 
