@@ -26,6 +26,7 @@ $string['addfeed'] = 'Add a news feed URL:';
 $string['addheadlineblock'] = 'Add RSS headline block';
 $string['addnew'] = 'Add new';
 $string['addnewfeed'] = 'Add a new feed';
+$string['blocksettings'] = 'Block settings';
 $string['cannotmakemodification'] = 'You are not allowed to make modifications to this RSS feed at this time.';
 $string['clientchannellink'] = 'Source site...';
 $string['clientnumentries'] = 'The default number of entries to show per feed.';

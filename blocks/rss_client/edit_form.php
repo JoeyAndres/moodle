@@ -75,9 +75,14 @@ class block_rss_client_edit_form extends block_edit_form {
         }
 
         if (has_any_capability(array('block/rss_client:manageanyfeeds', 'block/rss_client:manageownfeeds'), $this->block->context)) {
+            $blockid = $this->block->instance->id;
+            $courseid = $this->page->course->id;
+            $sesskey = sesskey();
+            $returnurl = urlencode("/course/view.php?id={$courseid}&bui_editid={$blockid}&sesskey={$sesskey}");
             $mform->addElement('static', 'nofeedmessage', '',
-                    '<a href="' . $CFG->wwwroot . '/blocks/rss_client/managefeeds.php?courseid=' . $this->page->course->id . '">' .
-                    get_string('feedsaddedit', 'block_rss_client') . '</a>');
+                '<a href="' . $CFG->wwwroot . '/blocks/rss_client/managefeeds.php?courseid=' . $courseid .
+                '&returnurl=' . $returnurl . '&sesskey=' . sesskey() . '&fromconfig=true">' .
+                get_string('feedsaddedit', 'block_rss_client') . '</a>');
         }
 
         $mform->addElement('text', 'config_title', get_string('uploadlabel'));

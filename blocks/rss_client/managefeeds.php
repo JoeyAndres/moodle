@@ -30,6 +30,7 @@ require_login();
 $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 $courseid = optional_param('courseid', 0, PARAM_INT);
 $deleterssid = optional_param('deleterssid', 0, PARAM_INT);
+$fromconfig = optional_param('fromconfig', false, PARAM_BOOL);
 
 if ($courseid == SITEID) {
     $courseid = 0;
@@ -56,7 +57,7 @@ if ($courseid) {
 }
 if ($returnurl) {
     $urlparams['returnurl'] = $returnurl;
-    $extraparams = '&returnurl=' . $returnurl;
+    $extraparams = '&returnurl=' . urlencode($returnurl);
 }
 $baseurl = new moodle_url('/blocks/rss_client/managefeeds.php', $urlparams);
 $PAGE->set_url($baseurl);
@@ -84,7 +85,11 @@ $PAGE->set_heading($strmanage);
 
 $managefeeds = new moodle_url('/blocks/rss_client/managefeeds.php', $urlparams);
 $PAGE->navbar->add(get_string('blocks'));
-$PAGE->navbar->add(get_string('pluginname', 'block_rss_client'));
+if ($fromconfig && $returnurl) {
+    $PAGE->navbar->add(get_string('pluginname', 'block_rss_client'), $returnurl);
+} else {
+    $PAGE->navbar->add(get_string('pluginname', 'block_rss_client'));
+}
 $PAGE->navbar->add(get_string('managefeeds', 'block_rss_client'), $managefeeds);
 echo $OUTPUT->header();
 
