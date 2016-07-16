@@ -2200,7 +2200,7 @@ function date_format_string($date, $format, $tz = 99) {
     }
 
     date_default_timezone_set(core_date::get_user_timezone($tz));
-    $datestring = strftime($format, $date);
+    $datestring = moodle_strftime($format, $date);
     core_date::set_default_server_timezone();
 
     if ($localewincharset) {
@@ -2208,6 +2208,107 @@ function date_format_string($date, $format, $tz = 99) {
     }
 
     return $datestring;
+}
+
+/**
+ * An abstraction above php's strftime function to make it take advantage of moodle's language pack's
+ * thus making it more robust (especially in cases where language locale is not installed in the computer.
+ *
+ * TODO: To keep things simple, this is only done to address month locale, if problem arises in other date
+ *       properties, make a bug and modify this function.
+ *
+ * @param string $format
+ * @param int $timestamp Defaults to current timestamp.
+ * @return string a string formatted according format
+ *                using the given timestamp or the current
+ *                local time if no timestamp is given. Month and weekday names and
+ *                other language-dependent strings respect the current language pack
+ *                or current locale set.
+ */
+function moodle_strftime($format, $timestamp = null) {
+    if (is_null($timestamp)) {
+        $timestamp = time();
+    }
+
+    $strftimeformatpattern = "|(%[aAdejuwUVWbBhmCgGyYHkIlMpPrRSTXzZcDFsxnt%])|";
+    return preg_replace_callback($strftimeformatpattern, function($matches) use (&$timestamp) {
+        $ismonth = preg_match('|%[bBhm]|', $matches[0]);
+        if ($ismonth) {
+            $monthformatchar = substr($matches[0], 1);
+
+            $isabbreviatedmonth = $monthformatchar == 'b' || $monthformatchar == 'h';
+            $isfullmonth = $monthformatchar == 'B';
+            $istwodigitmonth = $monthformatchar == 'm';
+
+            $twodigitmonth = strftime('%m', $timestamp);
+            $enfullmonth = twodigitmonthtoenfullmonth($twodigitmonth);
+
+            if ($isabbreviatedmonth) {
+                return get_string("abbr_{$enfullmonth}", 'calendar');
+            } else if ($isfullmonth) {
+                return get_string("full_{$enfullmonth}", 'calendar');
+            } else if ($istwodigitmonth) {
+                return $twodigitmonth;
+            } else {
+                // Never supposed to happen, should only be called when the world ends.
+                // Just in case, return full month.
+                return get_string("full_{$enfullmonth}", 'calendar');
+            }
+        } else {
+            return strftime($matches[0], $timestamp);
+        }
+    }, $format);
+}
+
+/**
+ * Converts the two-digit month format (01-012) to english full month name.
+ *
+ * @param string $twodigitmonth 01-12
+ * @return string The full month name in english.
+ * @throws Exception If $twodigitmonth is not within 01-12.
+ */
+function twodigitmonthtoenfullmonth($twodigitmonth) {
+    switch($twodigitmonth) {
+        case '01':
+            $fullmonth = 'January';
+            break;
+        case '02':
+            $fullmonth = 'February';
+            break;
+        case '03':
+            $fullmonth = 'March';
+            break;
+        case '04':
+            $fullmonth = 'April';
+            break;
+        case '05':
+            $fullmonth = 'May';
+            break;
+        case '06':
+            $fullmonth = 'June';
+            break;
+        case '07':
+            $fullmonth = 'July';
+            break;
+        case '08':
+            $fullmonth = 'August';
+            break;
+        case '09':
+            $fullmonth = 'September';
+            break;
+        case '10':
+            $fullmonth = 'October';
+            break;
+        case '11':
+            $fullmonth = 'November';
+            break;
+        case '12':
+            $fullmonth = 'December';
+            break;
+        default:
+            throw new Exception("Given \$twodigitmonth:$twodigitmonth is invalid.");
+    }
+    return strtolower($fullmonth);
 }
 
 /**

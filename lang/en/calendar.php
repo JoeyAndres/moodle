@@ -22,6 +22,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['abbr_january'] = 'Jan';
+$string['abbr_february'] = 'Feb';
+$string['abbr_march'] = 'Mar';
+$string['abbr_april'] = 'Apr';
+$string['abbr_may'] = 'May';
+$string['abbr_june'] = 'Jun';
+$string['abbr_july'] = 'Jul';
+$string['abbr_august'] = 'Aug';
+$string['abbr_september'] = 'Sep';
+$string['abbr_october'] = 'Oct';
+$string['abbr_november'] = 'Nov';
+$string['abbr_december'] = 'Dec';
 $string['advancedoptions'] = 'Advanced options';
 $string['allday'] = 'All day';
 $string['addevent'] = 'Add events';
@@ -104,6 +116,18 @@ $string['for'] = 'for';
 $string['forcecalendartype'] = 'Force calendar';
 $string['fri'] = 'Fri';
 $string['friday'] = 'Friday';
+$string['full_january'] = 'January';
+$string['full_february'] = 'February';
+$string['full_march'] = 'March';
+$string['full_april'] = 'April';
+$string['full_may'] = 'May';
+$string['full_june'] = 'June';
+$string['full_july'] = 'July';
+$string['full_august'] = 'August';
+$string['full_september'] = 'September';
+$string['full_october'] = 'October';
+$string['full_november'] = 'November';
+$string['full_december'] = 'December';
 $string['generateurlbutton'] = 'Get calendar URL';
 $string['global'] = 'Global';
 $string['globalevent'] = 'Global event';

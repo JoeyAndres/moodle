@@ -3127,4 +3127,138 @@ class core_moodlelib_testcase extends advanced_testcase {
         $this->assertSame('', $result);
         $this->assertDebuggingCalled();
     }
+
+    /**
+     * Test moodle_strftime on non month format. It should return same with strftime since we only want Month to be
+     * converted (for now).
+     * TODO: As moodle_strftime handles more cases other than month, test_moodle_strftime_basic_format should be
+     *       changed accordingly.
+     */
+    public function test_moodle_strftime_basic_format() {
+        $dateformat = '%d %G';
+        $timestamp = time();
+
+        $normalstrftime = strftime($dateformat, $timestamp);
+        $moodlestrftime = moodle_strftime($dateformat, $timestamp);
+
+        $this->assertSame($normalstrftime, $moodlestrftime);
+    }
+
+    /**
+     * Test moodle_strftime returns the appropriate abbreviated month name given a timestamp.
+     *
+     * @see http://www.epochconverter.com/timestamp-list
+     */
+    public function test_moodle_strftime_with_abbreviated_month_format() {
+        $dateformatwithabbrmonth = '%b';
+
+        $januarytimestamp = 1420070400;
+        $febuarytimestamp = 1422748800;
+        $marchtimestamp = 1425168000;
+        $apriltimestamp = 1427846400;
+        $maytimestamp = 1430438400;
+        $junetimestamp = 1433116800;
+        $julytimestamp = 1435708800;
+        $augustimestamp = 1438387200;
+        $septembertimestamp = 1441065600;
+        $octobertimestamp = 1443657600;
+        $novembertimestamp = 1446336000;
+        $decembertimestamp = 1448928000;
+
+        $this->assertSame(
+            get_string('abbr_january', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $januarytimestamp));
+        $this->assertSame(
+            get_string('abbr_february', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $febuarytimestamp));
+        $this->assertSame(
+            get_string('abbr_march', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $marchtimestamp));
+        $this->assertSame(
+            get_string('abbr_april', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $apriltimestamp));
+        $this->assertSame(
+            get_string('abbr_may', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $maytimestamp));
+        $this->assertSame(
+            get_string('abbr_june', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $junetimestamp));
+        $this->assertSame(
+            get_string('abbr_july', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $julytimestamp));
+        $this->assertSame(
+            get_string('abbr_august', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $augustimestamp));
+        $this->assertSame(
+            get_string('abbr_september', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $septembertimestamp));
+        $this->assertSame(
+            get_string('abbr_october', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $octobertimestamp));
+        $this->assertSame(
+            get_string('abbr_november', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $novembertimestamp));
+        $this->assertSame(
+            get_string('abbr_december', 'calendar'),
+            moodle_strftime($dateformatwithabbrmonth, $decembertimestamp));
+    }
+
+    /**
+     * Test moodle_strftime returns the appropriate full month name given a timestamp.
+     *
+     * @see http://www.epochconverter.com/timestamp-list
+     */
+    public function test_moodle_strftime_with_full_month_format() {
+        $dateformatwithfullmonth = '%B';
+
+        $januarytimestamp = 1420070400;
+        $febuarytimestamp = 1422748800;
+        $marchtimestamp = 1425168000;
+        $apriltimestamp = 1427846400;
+        $maytimestamp = 1430438400;
+        $junetimestamp = 1433116800;
+        $julytimestamp = 1435708800;
+        $augustimestamp = 1438387200;
+        $septembertimestamp = 1441065600;
+        $octobertimestamp = 1443657600;
+        $novembertimestamp = 1446336000;
+        $decembertimestamp = 1448928000;
+
+        $this->assertSame(
+            get_string('full_january', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $januarytimestamp));
+        $this->assertSame(
+            get_string('full_february', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $febuarytimestamp));
+        $this->assertSame(
+            get_string('full_march', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $marchtimestamp));
+        $this->assertSame(
+            get_string('full_april', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $apriltimestamp));
+        $this->assertSame(
+            get_string('full_may', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $maytimestamp));
+        $this->assertSame(
+            get_string('full_june', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $junetimestamp));
+        $this->assertSame(
+            get_string('full_july', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $julytimestamp));
+        $this->assertSame(
+            get_string('full_august', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $augustimestamp));
+        $this->assertSame(
+            get_string('full_september', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $septembertimestamp));
+        $this->assertSame(
+            get_string('full_october', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $octobertimestamp));
+        $this->assertSame(
+            get_string('full_november', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $novembertimestamp));
+        $this->assertSame(
+            get_string('full_december', 'calendar'),
+            moodle_strftime($dateformatwithfullmonth, $decembertimestamp));
+    }
 }
