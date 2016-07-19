@@ -21,6 +21,11 @@
     display: inline;
 }
 
+/* This is so the parent, ghostNodeContainer in resizable.js, will wrap around it's child. */
+.atto-image-resize-container > .yui3-overlay {
+    position: relative;
+}
+
 /**
  * Resize handles design.
  */
