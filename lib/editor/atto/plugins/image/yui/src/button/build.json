@@ -5,6 +5,7 @@
       "jsfiles": [
         "const.js",
         "utility.js",
+        "delete-mutation-observer.js",
         "resizable.js",
         "button.js"
       ]
