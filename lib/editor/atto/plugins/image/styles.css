@@ -44,6 +44,7 @@
     border: 1px solid white;
     width: 8px;
     height: 8px;
+    resize: none;
 }
 .yui3-resize-handle-tr,
 .yui3-resize-handle-br,
@@ -51,6 +52,7 @@
 .yui3-resize-handle-bl {
     width: 8px;
     height: 8px;
+    resize: none;
 }
 .atto-image-resize-container .yui3-resize-handle-inner-tl {
     bottom: 4px;
