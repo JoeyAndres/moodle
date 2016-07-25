@@ -6,6 +6,7 @@
         "const.js",
         "utility.js",
         "delete-mutation-observer.js",
+        "editable-img-ghost-container.js",
         "resizable.js",
         "button.js"
       ]
