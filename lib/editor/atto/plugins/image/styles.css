@@ -21,6 +21,16 @@
     display: inline;
 }
 
+.atto-image-resize-container.atto_control,
+.atto-image-resize-container.atto_control:hover,
+.atto-image-resize-container.atto_control:focus {
+    /*
+     * Reset all styling that applies from border within .
+     */
+    padding: 0px;
+    border-width: 0px;
+}
+
 /* This is so the parent, ghostNodeContainer in resizable.js, will wrap around it's child. */
 .atto-image-resize-container > .yui3-overlay {
     position: relative;
@@ -36,6 +46,16 @@
 
     width: 100%;
     height: 100%;
+
+    /*
+     * Avoid ff image movement.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
 }
 .atto-image-resize-container .yui3-resize-handle-inner {
     background-color: blue;
@@ -115,4 +135,33 @@
 
 .atto-image-helper-hide-until-save {
     display: none;
+}
+
+/*
+ * Class for ghostNode.
+ */
+.atto_image_ghost_img {
+    /*
+     * Avoid ff image movement.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+
+    /*
+     * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
+     * Properties below are suppose to override the styles html attribute (which is top priority).
+     */
+    margin: 0px !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    /*
+     * This is so other will just stack over this.ghostNode instead of doing a doc flow.
+     */
+    position: absolute !important;
 }
