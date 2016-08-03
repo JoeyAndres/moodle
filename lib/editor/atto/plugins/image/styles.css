@@ -3,27 +3,30 @@
  * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
  * atto_control styling does.
  */
-.atto-image-resize-container.atto_control,
-.atto-image-resize-container .atto_control {
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control,
+.atto-image-wrapper .atto_control {
     /* Reset atto_control except for cursor. */
     position: static;
     right: auto;
     bottom: auto;
-    display: inline;
+    display: inline-block;
 }
-.atto-image-resize-container.atto_control:hover,
-.atto-image-resize-container .atto_control:hover {
-    display: inline;
+.atto-image-wrapper:hover,
+.atto-image-wrapper.atto_control:hover,
+.atto-image-wrapper .atto_control:hover {
+    display: inline-block;
     margin-left: 0;
 }
-.atto-image-resize-container.atto_control:focus,
-.atto-image-resize-container .atto_control:focus {
-    display: inline;
+.atto-image-wrapper:focus,
+.atto-image-wrapper.atto_control:focus,
+.atto-image-wrapper .atto_control:focus {
+    display: inline-block;
 }
-
-.atto-image-resize-container.atto_control,
-.atto-image-resize-container.atto_control:hover,
-.atto-image-resize-container.atto_control:focus {
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control,
+.atto-image-wrapper .atto_control:hover,
+.atto-image-wrapper .atto_control:focus {
     /*
      * Reset all styling that applies from border within .
      */
@@ -31,8 +34,8 @@
     border-width: 0px;
 }
 
-/* This is so the parent, ghostNodeContainer in resizable.js, will wrap around it's child. */
-.atto-image-resize-container > .yui3-overlay {
+/* This is so the parent, nodeWrapper in resizable.js, will wrap around it's child. */
+.atto-image-wrapper > .yui3-overlay {
     position: relative;
 }
 
@@ -57,7 +60,7 @@
     user-select: none;
     pointer-events: none;
 }
-.atto-image-resize-container .yui3-resize-handle-inner {
+.atto-image-wrapper .yui3-resize-handle-inner {
     background-color: blue;
     background-image: none;
     border-radius: 50%;
@@ -74,32 +77,32 @@
     height: 8px;
     resize: none;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-tl {
+.atto-image-wrapper .yui3-resize-handle-inner-tl {
     bottom: 4px;
     right: 4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-t {
+.atto-image-wrapper .yui3-resize-handle-inner-t {
     top: -4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-tr {
+.atto-image-wrapper .yui3-resize-handle-inner-tr {
     bottom: 4px;
     right: -4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-r {
+.atto-image-wrapper .yui3-resize-handle-inner-r {
     right: -4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-br {
+.atto-image-wrapper .yui3-resize-handle-inner-br {
     bottom: -4px;
     right: -4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-b {
+.atto-image-wrapper .yui3-resize-handle-inner-b {
     bottom: -4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-bl {
+.atto-image-wrapper .yui3-resize-handle-inner-bl {
     bottom: -4px;
     right: 4px;
 }
-.atto-image-resize-container .yui3-resize-handle-inner-l {
+.atto-image-wrapper .yui3-resize-handle-inner-l {
     left: -4px;
 }
 
@@ -138,9 +141,9 @@
 }
 
 /*
- * Class for ghostNode.
+ * Class for images when editing them.
  */
-.atto_image_ghost_img {
+img.atto-image-helper-editable {
     /*
      * Avoid ff image movement.
      */
@@ -154,14 +157,16 @@
     /*
      * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
      * Properties below are suppose to override the styles html attribute (which is top priority).
-     */
+
     margin: 0px !important;
     top: 0px !important;
     left: 0px !important;
     width: 100% !important;
     height: 100% !important;
+    */
+
     /*
-     * This is so other will just stack over this.ghostNode instead of doing a doc flow.
+     * This is so other will just stack over img instead of doing a doc flow.
      */
     position: absolute !important;
 }
