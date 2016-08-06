@@ -1,3 +1,11 @@
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control {
+    right: auto;
+    bottom: auto;
+    display: inline-block;
+    vertical-align: bottom;  /* Place the texts at the bottom for default.*/
+}
+
 /**
  * Default atto_control is undesired, it's causing things to "hide" in unwanted manner. To counter this under image
  * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
@@ -144,27 +152,6 @@
  * Class for images when editing them.
  */
 img.atto-image-helper-editable {
-    /*
-     * Avoid ff image movement.
-     */
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    pointer-events: none;
-
-    /*
-     * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
-     * Properties below are suppose to override the styles html attribute (which is top priority).
-
-    margin: 0px !important;
-    top: 0px !important;
-    left: 0px !important;
-    width: 100% !important;
-    height: 100% !important;
-    */
-
     /*
      * This is so other will just stack over img instead of doing a doc flow.
      */
