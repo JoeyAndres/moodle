@@ -8,6 +8,7 @@
         "delete-mutation-observer.js",
         "editable-img.js",
         "resizable.js",
+        "rotatable.js",
         "button.js"
       ]
     }

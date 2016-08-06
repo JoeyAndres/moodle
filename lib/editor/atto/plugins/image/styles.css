@@ -15,7 +15,8 @@
 .atto-image-wrapper.atto_control img,
 .atto-image-wrapper *.atto_control img,
 .atto-image-wrapper.atto_control *.atto_control img,
-.atto-image-resize-overlay img {
+.atto-image-resize-overlay img,
+.atto-image-rotate-handle-container img {
     background-color: transparent;
 }
 
@@ -23,10 +24,12 @@
 .atto-image-wrapper:focus .atto_control,
 .atto-image-wrapper .atto_control:focus .atto_control,
 .atto-image-resize-overlay:focus .atto_control,
+.atto-image-rotate-handle-container:focus .atto_control,
 .atto_control_nullify:hover .atto_control,
 .atto-image-wrapper:hover .atto_control,
 .atto-image-wrapper .atto_control:hover .atto_control,
-.atto-image-resize-overlay:hover .atto_control {
+.atto-image-resize-overlay:hover .atto_control,
+.atto-image-rotate-handle-container:hover .atto_control {
     display: inline-block;
 }
 
@@ -67,6 +70,11 @@
 .atto-image-wrapper,
 .atto-image-wrapper.atto_control {
     vertical-align: bottom;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
     left: 0px;
     top: 0px;
     position: relative;
@@ -74,6 +82,34 @@
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+
+.atto-image-wrapper.atto-image-helper-debug > .atto-image-rotate-handle-container {
+    border: 1px solid black;
+}
+
+.atto-image-wrapper.atto-image-helper-orientation-t,
+.atto-image-wrapper.atto-image-helper-orientation-tl,
+.atto-image-wrapper.atto-image-helper-orientation-tr {
+    margin-top: 30px;
+}
+
+.atto-image-wrapper.atto-image-helper-orientation-tl,
+.atto-image-wrapper.atto-image-helper-orientation-bl,
+.atto-image-wrapper.atto-image-helper-orientation-l {
+    margin-right: 30px;
+}
+
+.atto-image-wrapper.atto-image-helper-orientation-r,
+.atto-image-wrapper.atto-image-helper-orientation-br,
+.atto-image-wrapper.atto-image-helper-orientation-tr {
+    margin-left: 30px;
+}
+
+.atto-image-wrapper.atto-image-helper-orientation-bl,
+.atto-image-wrapper.atto-image-helper-orientation-b,
+.atto-image-wrapper.atto-image-helper-orientation-br {
+    margin-bottom: 30px;
 }
 
 .atto-image-wrapper > .atto-image-editable-helper-wrapper {
@@ -91,6 +127,14 @@
     -ms-user-select: none;
     user-select: none;
     pointer-events: none;
+}
+
+.atto-image-rotate-handle-container {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
 }
 
 .atto-image-resize-overlay-wrapper {
@@ -171,6 +215,48 @@
     margin: 0px;
     position: absolute;
     /* For cropping, so we can offset the image inside the wrapper. */
+}
+
+.atto-image-rotate-handle-container .atto-image-rotate-handle-vertical-line {
+    width: 50%;
+    height: 20px;
+    /*
+     * In combination with width: 50%, offset a bit to the left to take into
+     * account of half the handle width.
+     */
+    left: -3px;
+    /* Copied from yui3-resize-handle */
+    position: absolute;
+    display: block;
+    z-index: 100;
+    zoom: 1;
+    top: -20px;
+    /* Color of the vertical line. */
+    border-right: 2px solid #0096fd;
+}
+
+.atto-image-rotate-handle-container .atto-image-rotate-handle {
+    position: absolute;
+    zoom: 1;
+    display: block;
+    overflow: hidden;
+    text-indent: -99999em;
+    background-color: #0096fd;
+    width: 10px;
+    height: 10px;
+    resize: none;
+    top: -30px;
+    margin-left: -8px;
+    left: 50%;
+    cursor: crosshair;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 1px solid white;
 }
 
 .atto-image-wrapper ::-moz-selection,
