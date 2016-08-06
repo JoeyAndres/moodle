@@ -1803,6 +1803,33 @@ function purify_html($text, $options = array()) {
         ));
         $config->set('Attr.AllowedFrameTargets', array('_blank'));
 
+        $cssdefinition = $config->getCSSDefinition();
+        $cssDefinition->info['position'] = new HTMLPurifier_AttrDef_Enum(
+            array(
+                'absolute',
+                'fixed',
+                'relative',
+                'static',
+                'inherit'
+            ),
+            false
+        );
+        $cssdefinition->info['left'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+            new HTMLPurifier_AttrDef_CSS_Length()
+        ));
+        $cssdefinition->info['top'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+            new HTMLPurifier_AttrDef_CSS_Length()
+        ));
+        $cssdefinition->info['right'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+            new HTMLPurifier_AttrDef_CSS_Length()
+        ));
+        $cssdefinition->info['bottom'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+            new HTMLPurifier_AttrDef_CSS_Length()
+        ));
+        $cssdefinition->info['transform'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+            new HTMLPurifier_AttrDef_CSS_Transform()
+        ));
+
         if ($allowobjectembed) {
             $config->set('HTML.SafeObject', true);
             $config->set('Output.FlashCompat', true);
