@@ -2,8 +2,60 @@
 .atto-image-wrapper.atto_control {
     right: auto;
     bottom: auto;
-    display: inline-block;
     vertical-align: bottom;  /* Place the texts at the bottom for default.*/
+
+    display: inline-block !important;
+
+    -webkit-transform: rotate(0deg) !important;
+    -moz-transform: rotate(0deg) !important;
+    -ms-transform: rotate(0deg) !important;
+    -o-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important;
+
+    left: 0px !important;
+    top: 0px !important;
+
+    /* So "position: absolute" children respect this container. */
+    position: relative !important;
+
+    overflow: visible !important;
+}
+
+.atto-image-wrapper img {
+    /*
+     * This is so other will just stack over img instead of doing a doc flow.
+     * This is also left/right attribute will be respected with respect to .atto-image-wrapper
+     */
+    position: absolute !important;
+}
+
+.atto-image-wrapper.atto-image-helper-orientation-t {
+    margin-top: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-tl {
+    margin-top: 30px !important;
+    margin-right: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-r {
+    margin-left: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-bl {
+    margin-bottom: 30px !important;
+    margin-right: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-b {
+    margin-bottom: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-br {
+    margin-bottom: 30px !important;
+    margin-left: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-l {
+    margin-right: 30px !important;
+}
+.atto-image-wrapper.atto-image-helper-orientation-tr {
+    margin-top: 30px !important;
+    margin-left: 30px !important;
 }
 
 /**
@@ -11,8 +63,6 @@
  * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
  * atto_control styling does.
  */
-.atto-image-wrapper,
-.atto-image-wrapper.atto_control,
 .atto-image-wrapper .atto_control {
     /* Reset atto_control except for cursor. */
     position: static;
@@ -68,6 +118,21 @@
     user-select: none;
     pointer-events: none;
 }
+
+/**
+ * Rotate handle design.
+ */
+.atto-image-rotate-handle-container,
+.atto-image-rotate-handle-container.atto_control {
+    position: absolute;
+
+    top: 0px;
+    left: 0px;
+
+    width: 100%;
+    height: 100%;
+}
+
 .atto-image-wrapper .yui3-resize-handle-inner {
     background-color: blue;
     background-image: none;
@@ -151,9 +216,80 @@
 /*
  * Class for images when editing them.
  */
-img.atto-image-helper-editable {
+.atto-image-helper-editable > img {
     /*
-     * This is so other will just stack over img instead of doing a doc flow.
+     * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
+     * Properties below are suppose to override the styles html attribute (which is top priority).
      */
-    position: absolute !important;
+    margin: 0px !important;
+}
+
+.atto-image-rotate-handle-vertical-line {
+    /* Set the width to 50% so we can position right most at center, where line is displayed. */
+    width: 50%;
+
+    /* Match the offset height of rotation handle minus the half half the handle height. */
+    height: 15px;
+
+    /*
+     * In combination with width: 50%, offset a bit to the left to take into
+     * account of half the handle width.
+     */
+    left: -4px;
+
+    /* Copied from yui3-resize-handle */
+    position: absolute;
+    display: block;
+    z-index: 100;
+    zoom: 1;
+
+    top: -15px;  /* Put this thing above the image. */
+
+    /* Color of the vertical line. */
+    border-right: 1px solid blue;
+}
+
+.atto-image-rotate-handle {
+    /* Copied from yui3-resize-handle-inner-t */
+    position: absolute;
+    zoom: 1;
+
+    /* Copied from yui3-resize-handle-inner-t */
+    display: block;
+    overflow: hidden;
+    text-indent: -99999em;
+
+    background-color: limegreen;
+
+    width: 8px;
+    height: 8px;
+
+    resize: none;
+
+    top: -20px;  /* Offset the rotate handle 20px above the image. */
+    margin-left: -8px;  /* Offset with half the handle size to really center the handle. */
+
+    /**
+     * Center the rotate handle in the image horizontally.
+     */
+    left: 50%;
+
+    z-index: 100;
+
+    /**
+     * Aesthetic reason, to have a little disconnect with the line,
+     * same with the resize handles.
+     */
+    border: 1px solid white;
+
+    cursor: crosshair;
+
+    /*
+     * Avoid selection.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
