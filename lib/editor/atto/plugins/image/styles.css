@@ -6,6 +6,19 @@
     vertical-align: bottom;  /* Place the texts at the bottom for default.*/
 }
 
+.atto-image-wrapper.atto-image-helper-editable,
+.atto-image-wrapper.atto-image-helper-editable.atto_control {
+    /*
+     * Margin to top so that the resize handle will still show.
+     * !important is added since the .atto-image-wrapper have its
+     * margin-top element in styles attribute in which we don't want to
+     * touch as much as possible via js. Touching it means keeping track
+     * of its value prior to editing and then setting it back, this is just
+     * too clean of a solution instead of that.
+     */
+    margin-top: 30px !important;
+}
+
 /**
  * Default atto_control is undesired, it's causing things to "hide" in unwanted manner. To counter this under image
  * resizing, all atto_control class under atto-image-resize-container class will try to negate what the original
@@ -68,6 +81,31 @@
     user-select: none;
     pointer-events: none;
 }
+
+/**
+ * Rotate handle design.
+ */
+.atto-image-rotate-handle-container,
+.atto-image-rotate-handle-container.atto_control {
+    position: absolute;
+
+    top: 0px;
+    left: 0px;
+
+    width: 100%;
+    height: 100%;
+
+    /*
+     * Avoid ff image movement.
+     */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
 .atto-image-wrapper .yui3-resize-handle-inner {
     background-color: blue;
     background-image: none;
@@ -151,9 +189,86 @@
 /*
  * Class for images when editing them.
  */
-img.atto-image-helper-editable {
+.atto-image-helper-editable > img {
     /*
      * This is so other will just stack over img instead of doing a doc flow.
      */
     position: absolute !important;
+
+    /*
+     * Remove styling that affect's non-content widths (e.g. margin and top/left css properties).
+     * Properties below are suppose to override the styles html attribute (which is top priority).
+     */
+    margin: 0px !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    -webkit-transform: rotate(0deg) !important;
+    -moz-transform: rotate(0deg) !important;
+    -ms-transform: rotate(0deg) !important;
+    -o-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important;
+}
+
+.atto-image-rotate-handle-vertical-line {
+    /* Set the width to 50% so we can position right most at center, where line is displayed. */
+    width: 50%;
+
+    /* Match the offset height of rotation handle minus the half half the handle height. */
+    height: 15px;
+
+    /*
+     * In combination with width: 50%, offset a bit to the left to take into
+     * account of half the handle width.
+     */
+    left: -4px;
+
+    /* Copied from yui3-resize-handle */
+    position: absolute;
+    display: block;
+    z-index: 100;
+    zoom: 1;
+
+    top: -15px;  /* Put this thing above the image. */
+
+    /* Color of the vertical line. */
+    border-right: 1px solid blue;
+}
+
+.atto-image-rotate-handle {
+    /* Copied from yui3-resize-handle-inner-t */
+    position: absolute;
+    zoom: 1;
+
+    /* Copied from yui3-resize-handle-inner-t */
+    display: block;
+    overflow: hidden;
+    text-indent: -99999em;
+
+    background-color: limegreen;
+
+    width: 8px;
+    height: 8px;
+
+    resize: none;
+
+    top: -20px;  /* Offset the rotate handle 20px above the image. */
+    margin-left: -8px;  /* Offset with half the handle size to really center the handle. */
+
+    /**
+     * Center the rotate handle in the image horizontally.
+     */
+    left: 50%;
+
+    z-index: 100;
+
+    /**
+     * Aesthetic reason, to have a little disconnect with the line,
+     * same with the resize handles.
+     */
+    border: 1px solid white;
+
+    cursor: url([[pix:atto_image|i/rotate]]), default;
 }
