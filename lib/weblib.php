@@ -1645,10 +1645,11 @@ function trusttext_active() {
  *
  * NOTE: the format parameter was deprecated because we can safely clean only HTML.
  *
+ * @see purify_html For more info on options parameter.
+ *
  * @param string $text The text to be cleaned
  * @param int|string $format deprecated parameter, should always contain FORMAT_HTML or FORMAT_MOODLE
- * @param array $options Array of options; currently only option supported is 'allowid' (if true,
- *   does not remove id attributes when cleaning)
+ * @param array $options Array of options;
  * @return string The cleaned up text
  */
 function clean_text($text, $format = FORMAT_HTML, $options = array()) {
@@ -1727,8 +1728,14 @@ function is_purify_html_necessary($text) {
  * KSES replacement cleaning function - uses HTML Purifier.
  *
  * @param string $text The (X)HTML string to purify
- * @param array $options Array of options; currently only option supported is 'allowid' (if set,
- *   does not remove id attributes when cleaning)
+ * @param array $options Array of options;
+ *                       -'allowid' (if set, does not remove id attributes when cleaning)
+ *                       -'allowcssposition' (If set, does not remove valid position css in style attribute)
+ *                       -'allowcssleft' (If set, does not remove valid left css in style attribute)
+ *                       -'allowcsstop' (If set, does not remove valid top css in style attribute)
+ *                       -'allowcssright' (If set, does not remove valid right css in style attribute)
+ *                       -'allowcssbottom' (If set, does not remove valid bottom css in style attribute)
+ *                       -'allowcsstransform' (If set, does not remove valid transform css in style attribute)
  * @return string
  */
 function purify_html($text, $options = array()) {
@@ -1754,6 +1761,12 @@ function purify_html($text, $options = array()) {
     }
 
     $allowid = empty($options['allowid']) ? 0 : 1;
+    $allowcssposition = empty($options['allowcssposition']) ? 1 : empty($options['allowcssposition']);
+    $allowcssleft = empty($options['allowcssleft']) ? 1 : empty($options['allowcssleft']);
+    $allowcsstop = empty($options['allowcsstop']) ? 1 : empty($options['allowcsstop']);
+    $allowcssright = empty($options['allowcssright']) ? 1 : empty($options['allowcssright']);
+    $allowcssbottom = empty($options['allowcssbottom']) ? 1 : empty($options['allowcssbottom']);
+    $allowcsstransform = empty($options['allowcsstransform']) ? 1 : empty($options['allowcsstransform']);
     $allowobjectembed = empty($CFG->allowobjectembed) ? 0 : 1;
 
     $type = 'type_'.$allowid.'_'.$allowobjectembed;
@@ -1811,6 +1824,44 @@ function purify_html($text, $options = array()) {
 
         if ($allowid) {
             $config->set('Attr.EnableID', true);
+        }
+
+        $cssdefinition = $config->getCSSDefinition();
+
+        if ($allowcssposition) {
+            $cssdefinition->info['position'] = new HTMLPurifier_AttrDef_Enum(
+                array('absolute', 'fixed', 'relative', 'static', 'inherit'), false
+            );
+        }
+
+        if ($allowcssleft) {
+            $cssdefinition->info['left'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcsstop) {
+            $cssdefinition->info['top'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcssbottom) {
+            $cssdefinition->info['right'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcssbottom) {
+            $cssdefinition->info['bottom'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcsstransform) {
+            $cssdefinition->info['transform'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Transform()
+            ));
         }
 
         if ($def = $config->maybeGetRawHTMLDefinition()) {
