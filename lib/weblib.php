@@ -1605,7 +1605,14 @@ function trusttext_pre_edit($object, $field, $context) {
     $formatfield = $field.'format';
 
     if (!$object->$trustfield or !trusttext_trusted($context)) {
-        $object->$field = clean_text($object->$field, $object->$formatfield);
+        $object->$field = clean_text($object->$field, $object->$formatfield, array(
+            'allowcssposition' => true,
+            'allowcssleft' => true,
+            'allowcsstop' => true,
+            'allowcssright' => true,
+            'allowcssbottom' => true,
+            'allowcsstransform' => true
+        ));
     }
 
     return $object;
@@ -1664,6 +1671,12 @@ function clean_text($text, $format = FORMAT_HTML, $options = array()) {
     }
 
     if (is_purify_html_necessary($text)) {
+        $options['allowcssposition'] = empty($options['allowcssposition']) ? 1 : $options['allowcssposition'];
+        $options['allowcssleft'] = empty($options['allowcssleft']) ? 1 : $options['allowcssleft'];
+        $options['allowcsstop'] = empty($options['allowcsstop']) ? 1 : $options['allowcsstop'];
+        $options['allowcssright'] = empty($options['allowcssright']) ? 1 : $options['allowcssright'];
+        $options['allowcssbottom'] = empty($options['allowcssbottom']) ? 1 : $options['allowcssbottom'];
+        $options['allowcsstransform'] = empty($options['allowcsstransform']) ? 1 : $options['allowcsstransform'];
         $text = purify_html($text, $options);
     }
 
@@ -1754,6 +1767,12 @@ function purify_html($text, $options = array()) {
     }
 
     $allowid = empty($options['allowid']) ? 0 : 1;
+    $allowcssposition = empty($options['allowcssposition']) ? 0 : 1;
+    $allowcssleft = empty($options['allowcssleft']) ? 0 : 1;
+    $allowcsstop = empty($options['allowcsstop']) ? 0 : 1;
+    $allowcssright = empty($options['allowcssright']) ? 0 : 1;
+    $allowcssbottom = empty($options['allowcssbottom']) ? 0 : 1;
+    $allowcsstransform = empty($options['allowcsstransform']) ? 0 : 1;
     $allowobjectembed = empty($CFG->allowobjectembed) ? 0 : 1;
 
     $type = 'type_'.$allowid.'_'.$allowobjectembed;
@@ -1803,33 +1822,6 @@ function purify_html($text, $options = array()) {
         ));
         $config->set('Attr.AllowedFrameTargets', array('_blank'));
 
-        $cssdefinition = $config->getCSSDefinition();
-        $cssDefinition->info['position'] = new HTMLPurifier_AttrDef_Enum(
-            array(
-                'absolute',
-                'fixed',
-                'relative',
-                'static',
-                'inherit'
-            ),
-            false
-        );
-        $cssdefinition->info['left'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
-            new HTMLPurifier_AttrDef_CSS_Length()
-        ));
-        $cssdefinition->info['top'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
-            new HTMLPurifier_AttrDef_CSS_Length()
-        ));
-        $cssdefinition->info['right'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
-            new HTMLPurifier_AttrDef_CSS_Length()
-        ));
-        $cssdefinition->info['bottom'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
-            new HTMLPurifier_AttrDef_CSS_Length()
-        ));
-        $cssdefinition->info['transform'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
-            new HTMLPurifier_AttrDef_CSS_Transform()
-        ));
-
         if ($allowobjectembed) {
             $config->set('HTML.SafeObject', true);
             $config->set('Output.FlashCompat', true);
@@ -1838,6 +1830,44 @@ function purify_html($text, $options = array()) {
 
         if ($allowid) {
             $config->set('Attr.EnableID', true);
+        }
+
+        $cssdefinition = $config->getCSSDefinition();
+
+        if ($allowcssposition) {
+            $cssDefinition->info['position'] = new HTMLPurifier_AttrDef_Enum(
+                array('absolute', 'fixed', 'relative', 'static', 'inherit'), false
+            );
+        }
+
+        if ($allowcssleft) {
+            $cssdefinition->info['left'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcsstop) {
+            $cssdefinition->info['top'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcssbottom) {
+            $cssdefinition->info['right'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcssbottom) {
+            $cssdefinition->info['bottom'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Length()
+            ));
+        }
+
+        if ($allowcsstransform) {
+            $cssdefinition->info['transform'] = new HTMLPurifier_AttrDef_CSS_Composite(array(
+                new HTMLPurifier_AttrDef_CSS_Transform()
+            ));
         }
 
         if ($def = $config->maybeGetRawHTMLDefinition()) {
