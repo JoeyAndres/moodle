@@ -1,0 +1,467 @@
+$default-editor-display: inline-block;
+$default-image-text-alignment: bottom;
+
+$resize-handle-width: 10px;
+$resize-handle-height: 10px;
+$resize-handle-border-width: 1px;
+$resize-handle-color: #0096fd;
+$resize-border-color: $resize-handle-color;
+
+$rotate-handle-top-offset: 20px;
+$rotate-handle-line-width: 2px;
+$rotate-handle-color: $resize-handle-color;
+$rotate-handle-width: $resize-handle-width;
+$rotate-handle-height: $resize-handle-height;
+
+$crop-handle-width: 20px;
+$crop-handle-height: 20px;
+$crop-handle-line-width: 8px;
+
+@mixin rotate($rotate-arg) {
+  -webkit-transform: rotate($rotate-arg);
+  -moz-transform: rotate($rotate-arg);
+  -ms-transform: rotate($rotate-arg);
+  -o-transform: rotate($rotate-arg);
+  transform: rotate($rotate-arg);
+}
+
+@mixin box-sizing($box-sizing-arg) {
+  -webkit-box-sizing: $box-sizing-arg;
+  -moz-box-sizing: $box-sizing-arg;
+  box-sizing: $box-sizing-arg;
+}
+
+@mixin border-radius($border-radius-arg) {
+  -webkit-border-radius: $border-radius-arg;
+  -moz-border-radius: $border-radius-arg;
+  border-radius: $border-radius-arg;
+}
+
+@mixin user-select($user-select-arg) {
+  -webkit-user-select: $user-select-arg;
+  -moz-user-select: $user-select-arg;
+  -ms-user-select: $user-select-arg;
+  user-select: $user-select-arg;
+}
+
+@mixin set-size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin selection {
+  ::-moz-selection { @content; }
+  ::selection { @content; }
+}
+
+
+// Override atto's atto_control
+.atto_control_nullify {
+  position: static;
+  right: auto;
+  bottom: auto;
+  display: $default-editor-display;  // Chosen as default since we are in an editor.
+
+  img {
+    background-color: transparent;
+  }
+
+  &:focus .atto_control,
+  &:hover .atto_control {
+    display: $default-editor-display;
+  }
+}
+
+.atto_image_preview {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.atto_image_preview_box {
+  max-height: 200px;
+  margin-bottom: 1em;
+  overflow: auto;
+}
+
+.editor_atto_content .atto-image-inner-wrapper {
+  cursor: pointer;
+}
+
+.atto_image_size {
+  display: inline-block;
+
+  input[type=checkbox] {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  input[type=text] {
+    width: 3em;
+  }
+
+  label {
+    display: inline-block;
+  }
+}
+
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control {
+  @extend .atto_control_nullify;
+
+  *.atto_control {
+    @extend .atto_control_nullify;
+  }
+
+  vertical-align: $default-image-text-alignment;
+
+  @include rotate(0deg);
+
+  left: 0px;
+  top: 0px;
+
+  position: relative;
+  overflow: visible;
+
+  // Makes the height value tidy just in case there are borders.
+  @include box-sizing(content-box);
+}
+
+// Show boxes when in debugging mode.
+.atto-image-wrapper.atto-image-helper-debug {
+  > .atto-image-inner-wrapper,
+  > .atto-image-rotate-handle-container {
+    border: 1px solid black;
+  }
+}
+
+.atto-image-wrapper {
+  > .atto-image-inner-wrapper {
+    position: absolute;  // Make other containers stack over this wrapper.
+    display: $default-editor-display;
+
+    @include box-sizing(content-box);
+
+    // In case the image exceeds boundaries, hide it. This will be utilized by cropping feature.
+    overflow: hidden;
+  }
+
+  // If playing with cropping show the rest of the image.
+  &.atto-image-helper-show-cropped > .atto-image-inner-wrapper {
+    overflow: visible;
+  }
+}
+
+// Since rotation handle sticks out, they might be hidden if we are on the edge
+// of the editor. To solve, this add margin depending on the orientation of the
+// image (where the rotation handle is pointing).
+.atto-image-wrapper {
+  &.atto-image-helper-orientation-t,
+  &.atto-image-helper-orientation-tl,
+  &.atto-image-helper-orientation-tr {
+    margin-top: $rotate-handle-top-offset + $rotate-handle-height;
+  }
+
+  &.atto-image-helper-orientation-tl,
+  &.atto-image-helper-orientation-bl,
+  &.atto-image-helper-orientation-l {
+    margin-right: $rotate-handle-top-offset + $rotate-handle-width;
+  }
+
+  &.atto-image-helper-orientation-r,
+  &.atto-image-helper-orientation-br,
+  &.atto-image-helper-orientation-tr {
+    margin-left: $rotate-handle-top-offset + $rotate-handle-width;
+  }
+
+  &.atto-image-helper-orientation-bl,
+  &.atto-image-helper-orientation-b,
+  &.atto-image-helper-orientation-br {
+    margin-bottom: $rotate-handle-top-offset + $rotate-handle-height;
+  }
+}
+
+// .atto-image-editable-helper-wrapper is the class that is common amongst all
+// editable image helpers (e.g resizing, rotating, cropping, and so on).
+.atto-image-wrapper > .atto-image-editable-helper-wrapper {
+  position: absolute;
+}
+
+// Dummy to be placed inside overlay, since we can't have the image
+// placed inside.
+.atto-image-resize-overlay,
+.atto-image-crop-overlay {
+  @extend .atto_control_nullify;
+
+  @include box-sizing(border-box);
+
+  // Just fill the overlay.
+  width: 100%;
+  height: 100%;
+
+  // Avoid ff image movement.
+  @include user-select(none);
+  pointer-events: none;
+}
+
+.atto-image-rotate-handle-container {
+  @extend  .atto_control_nullify;
+
+  @include box-sizing(content-box);
+
+  // Fill .atto-image-wrapper
+  width: 100%;
+  height: 100%;
+}
+
+.atto-image-resize-overlay-wrapper {
+  border: 2px solid $resize-handle-color;
+
+  .yui3-resize-handle-inner {
+    background-image: none;  // Override yui's image.
+    background-color: $resize-handle-color;
+    @include set-size($resize-handle-width, $resize-handle-height);
+    border: 1px solid white;
+    resize: none;
+  }
+
+  .yui3-resize-handle-tr {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-br {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-tl {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-bl {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-inner-tl {
+    top: -$resize-handle-height/2;
+    left: -$resize-handle-width/2;
+  }
+
+  .yui3-resize-handle-inner-t {
+    top: -$resize-handle-height/2;
+  }
+
+  .yui3-resize-handle-inner-tr {
+    top: -$resize-handle-height/2;
+    right: -$resize-handle-width/2;
+  }
+
+  .yui3-resize-handle-inner-r {
+    bottom: -$resize-handle-height/2;
+    right: -$resize-handle-width/2;
+  }
+
+  .yui3-resize-handle-inner-br {
+    bottom: -$resize-handle-height/2;
+    right: -$resize-handle-width/2;
+  }
+
+  .yui3-resize-handle-inner-b {
+    bottom: -$resize-handle-height/2;
+  }
+
+  .yui3-resize-handle-inner-bl {
+    bottom: -$resize-handle-height/2;
+    left: -$resize-handle-width/2;
+  }
+
+  .yui3-resize-handle-inner-l {
+    left: -$resize-handle-width/2;
+  }
+}
+
+.atto-image-crop-overlay {
+  border: 3px solid lightgrey;
+}
+.atto-image-crop-overlay-wrapper {
+  .yui3-resize-handle-inner {
+    width: $crop-handle-width;
+    height: $crop-handle-height;
+    resize: none;
+    background: transparent;
+  }
+
+  .yui3-resize-handle-tr {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-br {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-tl {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-bl {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-inner-tl {
+    border-top: $crop-handle-line-width solid dimgrey;
+    border-left: $crop-handle-line-width solid dimgrey;
+    top: 0px;
+    left: 0px;
+  }
+
+  .yui3-resize-handle-inner-t {
+    border-top: $crop-handle-line-width solid dimgrey;
+    top: 0px;
+  }
+
+  .yui3-resize-handle-inner-tr {
+    border-top: $crop-handle-line-width solid dimgrey;
+    border-right: $crop-handle-line-width solid dimgrey;
+    top: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-inner-r {
+    border-right: $crop-handle-line-width solid dimgrey;
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-inner-br {
+    border-bottom: $crop-handle-line-width solid dimgrey;
+    border-right: $crop-handle-line-width solid dimgrey;
+    bottom: 0px;
+    right: 0px;
+  }
+
+  .yui3-resize-handle-inner-b {
+    border-bottom: $crop-handle-line-width solid dimgrey;
+    bottom: 0px;
+  }
+
+  .yui3-resize-handle-inner-bl {
+    border-bottom: $crop-handle-line-width solid dimgrey;
+    border-left: $crop-handle-line-width solid dimgrey;
+    bottom: 0px;
+    left: 0px;
+  }
+
+  .yui3-resize-handle-inner-l {
+    border-left: $crop-handle-line-width solid dimgrey;
+    left: 0px;
+  }
+}
+
+.atto-image-helper-inner-wrapper-coordinate {
+  > .yui3-resize-handle {
+    @include user-select(none);
+    pointer-events: none;
+  }
+
+  > .yui3-resize-handle-tr {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  > .yui3-resize-handle-br {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  > .yui3-resize-handle-tl {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  > .yui3-resize-handle-bl {
+    bottom: 0px;
+    right: 0px;
+  }
+}
+
+// Add this to DOM elements as class that won't be copied or saved.
+.atto-image-helper-hide-until-save {
+  display: none;
+}
+
+.atto-image-inner-wrapper > img {
+  margin: 0px;
+  position: absolute;  /* For cropping, so we can offset the image inside the wrapper. */
+}
+
+.atto-image-rotate-handle-container {
+  .atto-image-rotate-handle-vertical-line {
+    // Set the width to 50% so we can position right most at center, where line is displayed.
+    width: 50%;
+
+    // Match the offset height of rotation handle minus the half half the handle height.
+    height: $rotate-handle-top-offset;
+
+    /*
+     * In combination with width: 50%, offset a bit to the left to take into
+     * account of half the handle width.
+     */
+    left: -$rotate-handle-width/2 + $rotate-handle-line-width;
+
+    /* Copied from yui3-resize-handle */
+    position: absolute;
+    display: block;
+    z-index: 100;
+    zoom: 1;
+
+    top: -$rotate-handle-top-offset;  // Put this thing above the image.
+
+    /* Color of the vertical line. */
+    border-right: $rotate-handle-line-width solid $resize-handle-color;
+  }
+
+  .atto-image-rotate-handle {
+    // Copied from yui3-resize-handle-inner-t
+    position: absolute;
+    zoom: 1;
+
+    // Copied from yui3-resize-handle-inner-t
+    display: block;
+    overflow: hidden;
+    text-indent: -99999em;
+
+    background-color: $resize-handle-color;
+
+    @include set-size($rotate-handle-width, $rotate-handle-height);
+
+    resize: none;
+
+    // Offset the rotate handle 20px above the image.
+    top: -($rotate-handle-top-offset + $rotate-handle-height);
+    // Offset with half the handle size to really center the handle.
+    margin-left: -$rotate-handle-width/2 - $rotate-handle-line-width - $resize-handle-border-width;
+
+    left: 50%;  // Center the rotate handle in the image horizontally.
+
+    cursor: crosshair;  // Copied from google docs.
+
+    @include user-select(none);
+    @include border-radius(50%);
+    border: $resize-handle-border-width solid white;
+  }
+}
+
+// Don't show the selection.
+.atto-image-wrapper,
+.atto-image-wrapper * {
+  @include selection {
+    background: none;
+  }
+}
