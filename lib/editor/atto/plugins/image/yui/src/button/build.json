@@ -9,6 +9,7 @@
         "editable-img.js",
         "resizable.js",
         "rotatable.js",
+        "croppable.js",
         "button.js"
       ]
     }
