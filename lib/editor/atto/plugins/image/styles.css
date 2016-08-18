@@ -10,6 +10,24 @@
     right: auto;
     bottom: auto;
     display: inline-block;
+
+    background-color: transparent;
+
+    /* Disable entering cursor text despite contenteditable=false. */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Image alignment classes. */
+.atto-image-wrapper.atto-image-align-left {
+    float: left;
+    margin: 0 .5em 0 0;
+}
+.atto-image-wrapper.atto-image-align-right {
+    float: right;
+    margin: 0 0 0 .5em;
 }
 
 .atto_control_nullify img,
