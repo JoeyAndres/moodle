@@ -1,3 +1,62 @@
+.atto_control_nullify,
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control,
+.atto-image-wrapper *.atto_control,
+.atto-image-wrapper.atto_control *.atto_control,
+.atto-image-resize-overlay {
+    position: static;
+    right: auto;
+    bottom: auto;
+    display: inline-block;
+
+    background-color: transparent;
+
+    /* Override the parent's text-align. */
+    text-align: left;
+}
+
+/* Image alignment classes. */
+.atto-image-wrapper.atto-image-align-left {
+    float: left;
+    margin: 0 .5em 0 0;
+}
+
+.atto-image-wrapper.atto-image-align-center {
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+.atto-image-wrapper.atto-image-align-right {
+    float: right;
+    margin: 0 0 0 .5em;
+}
+
+/* Override the atto_align's align classes. */
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control {
+    text-align: left !important;
+}
+
+.atto_control_nullify img,
+.atto-image-wrapper img,
+.atto-image-wrapper.atto_control img,
+.atto-image-wrapper *.atto_control img,
+.atto-image-wrapper.atto_control *.atto_control img,
+.atto-image-resize-overlay img {
+    background-color: transparent;
+}
+
+.atto_control_nullify:focus .atto_control,
+.atto-image-wrapper:focus .atto_control,
+.atto-image-wrapper .atto_control:focus .atto_control,
+.atto-image-resize-overlay:focus .atto_control,
+.atto_control_nullify:hover .atto_control,
+.atto-image-wrapper:hover .atto_control,
+.atto-image-wrapper .atto_control:hover .atto_control,
+.atto-image-resize-overlay:hover .atto_control {
+    display: inline-block;
+}
+
 .atto_image_preview {
     width: 100%;
     height: 100%;
@@ -171,16 +230,18 @@
 .atto-image-wrapper > img {
     margin: 0px;
     position: absolute;
-    /* For cropping, so we can offset the image inside the wrapper. */
+
+    /* Override the parent's text-align. */
+    text-align: left;
 }
 
-.atto-image-wrapper ::-moz-selection,
-.atto-image-wrapper * ::-moz-selection {
+.atto-image-wrapper.atto-image-helper-editable ::-moz-selection,
+.atto-image-wrapper.atto-image-helper-editable * ::-moz-selection {
     background: none;
 }
 
-.atto-image-wrapper ::selection,
-.atto-image-wrapper * ::selection {
+.atto-image-wrapper.atto-image-helper-editable ::selection,
+.atto-image-wrapper.atto-image-helper-editable * ::selection {
     background: none;
 }
 
