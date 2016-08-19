@@ -8,6 +8,33 @@
     right: auto;
     bottom: auto;
     display: inline-block;
+
+    background-color: transparent;
+
+    /* Override the parent's text-align. */
+    text-align: left;
+}
+
+/* Image alignment classes. */
+.atto-image-wrapper.atto-image-align-left {
+    float: left;
+    margin: 0 0 0 0;
+}
+
+.atto-image-wrapper.atto-image-align-center {
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+.atto-image-wrapper.atto-image-align-right {
+    float: right;
+    margin: 0 0 0 0;
+}
+
+/* Override the atto_align's align classes. */
+.atto-image-wrapper,
+.atto-image-wrapper.atto_control {
+    text-align: left !important;
 }
 
 .atto_control_nullify img,
